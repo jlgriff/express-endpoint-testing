@@ -1,9 +1,11 @@
 import express, { Application } from 'express';
+import { graphqlHTTP } from 'express-graphql';
 import { ApplicationConfig } from './interfaces/config.app';
 
 import errorMiddleware from './middleware/error';
-import routes from './routes';
 import log from './utilities/logger';
+import { graphqlEndpoint } from './configs';
+import schema from './graphql/schema';
 
 const application = (config: ApplicationConfig): Application => {
   const app = express();
@@ -11,7 +13,13 @@ const application = (config: ApplicationConfig): Application => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  routes.forEach((route) => app.use('/', route.router));
+  app.use(
+    graphqlEndpoint,
+    graphqlHTTP({
+      schema,
+      graphiql: true,
+    }),
+  );
 
   app.use(errorMiddleware);
 
