@@ -1,10 +1,16 @@
 # Introduction
 
-This is a simple template for quick-starting an Express microservice/application using Typescript. The goal here is to have an extremely clean template from which to start projects, meaning no warnings, no vulnerabilities, no old versions, etc.
+This project is a proof-of-concept for creating API endpoint tests that:
 
-To keep it easily extensible, the only functionality that this project starts with is an index API and an accompanying test. This endpoint is documented below.
+1. Are deterministic
+2. Don't require any setup external to the code
+3. Test real database interactions instead of mocks
 
-This project also aims for as functional of a style as possible, so all of the written code is implemented via exported functions rather than classes.
+Thus, the goal is to be able to run `npm test` without any system setup, and yet still be able to validate real interactions with a real database.
+
+To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a MongoDB container within the test files.
+
+I'm also serving up the API with GraphQL and will be endpoint testing each of the resolvers.
 
 # Installation
 
@@ -20,7 +26,7 @@ This project also aims for as functional of a style as possible, so all of the w
 
 | Route | Method | Response |
 |-------|-------|-------|
-| `/` | GET | Returns `OK` if the application is running successfully |
+| `/graphql` | POST | Provides a GraphQL API |
 
 # Testing
 
