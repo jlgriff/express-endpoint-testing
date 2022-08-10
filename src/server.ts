@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { ApplicationConfig } from './interfaces/config.app';
-
 import {
   environment, port, graphiqlEnabled, dbConnectionString,
 } from './configs/index';

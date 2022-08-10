@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import { jwtExpiration, jwtSecretKey } from '../configs/index';
 import { User } from '../interfaces/user';
 import UserModel from '../models/user';
-import log from '../utilities/logger';
 
 /**
  * Saves the user into the database if the user does not already exist
@@ -14,7 +13,6 @@ export const saveUser = async (
   firstname: string,
   lastname: string,
 ): Promise<User> => {
-  log('debug', `saving user: ${email}, ${password}, ${firstname}, ${lastname}`);
   const existingUser = await UserModel.findOne({ email });
   if (existingUser) {
     const error = { message: 'User exists already', status: 400 };

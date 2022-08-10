@@ -4,3 +4,10 @@ export interface User {
   firstname: string;
   lastname: string;
 }
+
+export interface UserInput {
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+}
