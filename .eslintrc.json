@@ -3,19 +3,14 @@
     "jest": true
   },
   "extends": [
-    "airbnb-base",
-    "plugin:import/typescript", // this is needed because airbnb uses eslint-plugin-import
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "airbnb-base"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "allowImportExportEverywhere": true
   },
   "plugins": [
-    "@typescript-eslint",
-    "import"
+    "@typescript-eslint"
   ],
   "rules": {
     "no-console": "off",
