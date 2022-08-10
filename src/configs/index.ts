@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import log from '../utilities/logger';
+import log from '../utilities/logger.js';
 
 config({ path: '.env' });
 

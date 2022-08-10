@@ -1,12 +1,12 @@
 import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { ApplicationConfig } from './interfaces/config.app';
+import { ApplicationConfig } from './interfaces/config.app.js';
 
-import errorMiddleware from './middleware/error';
-import log from './utilities/logger';
-import { graphqlEndpoint } from './configs';
-import schema from './graphql/schema';
-import resolvers from './graphql/resolvers';
+import errorMiddleware from './middleware/error.js';
+import log from './utilities/logger.js';
+import { graphqlEndpoint } from './configs/index.js';
+import schema from './graphql/schema.js';
+import resolvers from './graphql/resolvers.js';
 
 const application = (config: ApplicationConfig): Application => {
   const app = express();

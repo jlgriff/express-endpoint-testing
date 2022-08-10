@@ -1,8 +1,8 @@
 import validator from 'validator';
 
-import { minPasswordLength } from '../configs';
-import { loginUser, saveUser } from '../database/user.data';
-import { User } from '../interfaces/user';
+import { minPasswordLength } from '../configs/index.js';
+import { loginUser, saveUser } from '../database/user.data.js';
+import { User } from '../interfaces/user.js';
 
 /**
  * Validates the user entity's input, checks if it already exists, and saves it into the database
