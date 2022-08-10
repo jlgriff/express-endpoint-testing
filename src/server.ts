@@ -9,7 +9,7 @@ import application from './app.js';
 const appConfig: ApplicationConfig = { port, environment, graphiqlEnabled };
 const app = application(appConfig);
 
-const dbConnection = await mongoose.connect(dbConnectionString);
+await mongoose.connect(dbConnectionString);
 const server = app.listen(appConfig.port);
 
 export default server;
