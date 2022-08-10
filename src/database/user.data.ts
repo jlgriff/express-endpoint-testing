@@ -5,6 +5,9 @@ import { User } from '../interfaces/user';
 import UserModel from '../models/user';
 import log from '../utilities/logger';
 
+/**
+ * Saves the user into the database if the user does not already exist
+ */
 export const saveUser = async (
   email: string,
   password: string,
@@ -34,6 +37,9 @@ export const saveUser = async (
   };
 };
 
+/**
+ * Returns a JWT token if the user's email and password match the values in the database
+ */
 export const loginUser = async (email: string, password: string) => {
   const user = await UserModel.findOne({ email });
   if (!user) {

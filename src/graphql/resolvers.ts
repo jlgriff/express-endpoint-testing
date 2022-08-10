@@ -4,6 +4,9 @@ import { minPasswordLength } from '../configs';
 import { loginUser, saveUser } from '../database/user.data';
 import { User } from '../interfaces/user';
 
+/**
+ * Validates the user entity's input, checks if it already exists, and saves it into the database
+ */
 const createUser = async (
   {
     email, firstname, lastname, password,
@@ -29,6 +32,9 @@ const createUser = async (
   return saveUser(email, password, firstname, lastname);
 };
 
+/**
+ * Returns a JWT token if the user's credentials are correct
+ */
 const login = async (
   { email, password }: {
     email: string,
