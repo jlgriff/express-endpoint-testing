@@ -1,8 +1,8 @@
 import application from './app';
-import { environment, port } from './configs';
+import { environment, port, graphiqlEnabled } from './configs';
 import { ApplicationConfig } from './interfaces/config.app';
 
-const appConfig: ApplicationConfig = { port, environment };
+const appConfig: ApplicationConfig = { port, environment, graphiqlEnabled };
 const app = application(appConfig);
 const server = app.listen(appConfig.port);
 

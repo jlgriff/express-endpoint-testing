@@ -17,7 +17,7 @@ const application = (config: ApplicationConfig): Application => {
   app.use(graphqlEndpoint, graphqlHTTP({
     schema,
     rootValue: resolvers,
-    graphiql: true,
+    graphiql: config.graphiqlEnabled,
   }));
 
   app.use(errorMiddleware);

@@ -23,12 +23,13 @@ const checkConfigurations = (configurations: EnvConfig[]): void => {
 };
 
 const {
-  PORT, NODE_ENV, JWT_SECRET_KEY, JWT_EXPIRATION, DB_HOST, DB_PORT, DB_NAME,
+  PORT, NODE_ENV, GRAPHIQL_ENABLED, JWT_SECRET_KEY, JWT_EXPIRATION, DB_HOST, DB_PORT, DB_NAME,
 } = process.env;
 
 const configurations: EnvConfig[] = [
   { name: 'PORT', value: PORT, required: false },
   { name: 'NODE_ENV', value: NODE_ENV, required: false },
+  { name: 'GRAPHIQL_ENABLED', value: GRAPHIQL_ENABLED, required: false },
   { name: 'JWT_SECRET_KEY', value: JWT_SECRET_KEY, required: true },
   { name: 'JWT_EXPIRATION', value: JWT_EXPIRATION, required: false },
   { name: 'DB_HOST', value: DB_HOST, required: true },
@@ -42,6 +43,7 @@ export const port: number = PORT
   ? parseInt(PORT, 10) || 80
   : 80;
 export const environment: string = NODE_ENV || 'development';
+export const graphiqlEnabled: boolean = (GRAPHIQL_ENABLED?.toLowerCase() === 'true') || false;
 export const minPasswordLength: number = 6;
 export const graphqlEndpoint: string = '/graphql';
 export const jwtSecretKey: string = JWT_SECRET_KEY!!;
