@@ -23,6 +23,5 @@ mongoose.connect(dbConnectionString)
     process.exit();
   });
 mongoose.connection.once('open', () => {
-  app.listen(appConfig.port);
   app.emit('ready');
 });
