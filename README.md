@@ -8,7 +8,7 @@ This project is a proof-of-concept for creating API endpoint tests that:
 
 Thus, the goal is to be able to run `npm test` without any system setup, and yet still be able to validate real interactions with a real database.
 
-To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) container within the test files.
+To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a MongoDB container within the test files.
 
 I'm also serving up the API with GraphQL and will be endpoint testing each of the resolvers.
 
@@ -16,7 +16,7 @@ I'm also serving up the API with GraphQL and will be endpoint testing each of th
 
 1. Run `npm install` to install the dependencies.
 2. Run `npm run copy-env:local` to create a `.env` from `.env-local` if `.env` doesn't already exist.
-3. Start MongoDB on the default port (already set in `.env`).
+3. Start [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) on the default port (already set in `.env`).
     * On Unix, this can be run via `sudo brew services start mongodb-community@6.0`.
 3. Run `npm start` to start the application.
 
