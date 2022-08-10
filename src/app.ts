@@ -1,12 +1,11 @@
 import express, { Application } from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import { ApplicationConfig } from './interfaces/config.app.js';
+import { ApplicationConfig } from './interfaces/config.app';
 
-import errorMiddleware from './middleware/error.js';
-import log from './utilities/logger.js';
-import { graphqlEndpoint } from './configs/index.js';
-import schema from './graphql/schema.js';
-import resolvers from './graphql/resolvers.js';
+import errorMiddleware from './middleware/error';
+import { graphqlEndpoint } from './configs/index';
+import schema from './graphql/schema';
+import resolvers from './graphql/resolvers';
 
 const application = (config: ApplicationConfig): Application => {
   const app = express();
@@ -21,8 +20,6 @@ const application = (config: ApplicationConfig): Application => {
   }));
 
   app.use(errorMiddleware);
-
-  log('info', `Application is running on port ${config.port} with the ${config.environment} environment`);
 
   return app;
 };

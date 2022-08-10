@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { jwtExpiration, jwtSecretKey } from '../configs/index.js';
-import { User } from '../interfaces/user.js';
-import UserModel from '../models/user.js';
-import log from '../utilities/logger.js';
+import { jwtExpiration, jwtSecretKey } from '../configs/index';
+import { User } from '../interfaces/user';
+import UserModel from '../models/user';
+import log from '../utilities/logger';
 
 /**
  * Saves the user into the database if the user does not already exist
