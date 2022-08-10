@@ -4,7 +4,7 @@ import { minPasswordLength } from '../configs';
 import { loginUser, saveUser } from '../database/user.data';
 import { User } from '../interfaces/user';
 
-export const createUser = async (
+const createUser = async (
   {
     email, firstname, lastname, password,
   }: {
@@ -29,10 +29,14 @@ export const createUser = async (
   return saveUser(email, password, firstname, lastname);
 };
 
-export const login = async (
+const login = async (
   { email, password }: {
     email: string,
     password: string,
   },
   _context: any,
 ): Promise<string> => loginUser(email, password);
+
+const resolvers = { createUser, login };
+
+export default resolvers;

@@ -6,6 +6,7 @@ import errorMiddleware from './middleware/error';
 import log from './utilities/logger';
 import { graphqlEndpoint } from './configs';
 import schema from './graphql/schema';
+import resolvers from './graphql/resolvers';
 
 const application = (config: ApplicationConfig): Application => {
   const app = express();
@@ -13,13 +14,11 @@ const application = (config: ApplicationConfig): Application => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use(
-    graphqlEndpoint,
-    graphqlHTTP({
-      schema,
-      graphiql: true,
-    }),
-  );
+  app.use(graphqlEndpoint, graphqlHTTP({
+    schema,
+    rootValue: resolvers,
+    graphiql: true,
+  }));
 
   app.use(errorMiddleware);
 

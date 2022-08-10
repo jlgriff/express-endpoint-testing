@@ -22,6 +22,6 @@ export const port: number = PORT
   : defaultPort;
 export const environment: string = NODE_ENV || defaultEnv;
 export const minPasswordLength: number = 6;
-export const graphqlEndpoint: string = 'graphql';
+export const graphqlEndpoint: string = '/graphql';
 export const jwtSecretKey: string = JWT_SECRET_KEY || '';
 export const jwtExpiration: string = JWT_EXPIRATION || '1hr';
