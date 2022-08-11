@@ -11,7 +11,7 @@ const app = application(appConfig);
 
 app.on('ready', () => {
   app.listen(appConfig.port, () => {
-    log('info', `Application is running on port ${appConfig.port} with the ${appConfig.environment} environment`);
+    log('info', `Application is running on port ${appConfig.port} in the ${appConfig.environment} environment`);
   });
 });
 

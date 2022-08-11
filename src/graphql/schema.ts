@@ -21,8 +21,13 @@ const schema = buildSchema(`
     password: String!
   }
 
+  input AuthInputData {
+    email: String!
+    password: String!
+  }
+
   type Query {
-    login(email: String!, password: String!): AuthData!
+    login(authInput: AuthInputData!): AuthData!
   }
 
   type Mutation {

@@ -2,6 +2,7 @@ import validator from 'validator';
 
 import { minPasswordLength } from '../configs/index';
 import { loginUser, saveUser } from '../database/user.data';
+import { Auth, AuthInput } from '../interfaces/authorization';
 import { Exception } from '../interfaces/exception';
 import { User, UserInput } from '../interfaces/user';
 
@@ -30,13 +31,10 @@ const createUser = async (userInput: { userInput: UserInput; }, _context: any): 
 /**
  * Returns a JWT token if the user's credentials are correct
  */
-const login = async (
-  { email, password }: {
-    email: string,
-    password: string,
-  },
-  _context: any,
-): Promise<string> => loginUser(email, password);
+const login = async (authInput: { authInput: AuthInput; }, _context: any): Promise<Auth> => {
+  const { email, password } = authInput.authInput;
+  return loginUser(email, password);
+};
 
 const resolvers = { createUser, login };
 

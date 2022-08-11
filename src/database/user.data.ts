@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { jwtExpiration, jwtSecretKey } from '../configs/index';
+import { Auth } from '../interfaces/authorization';
 import { Exception } from '../interfaces/exception';
 import { User } from '../interfaces/user';
 import UserModel from '../models/user';
@@ -39,7 +40,7 @@ export const saveUser = async (
 /**
  * Returns a JWT token if the user's email and password match the values in the database
  */
-export const loginUser = async (email: string, password: string) => {
+export const loginUser = async (email: string, password: string): Promise<Auth> => {
   const user = await UserModel.findOne({ email });
   if (!user) {
     const error = { message: 'User was not found', status: 404 };
@@ -50,9 +51,10 @@ export const loginUser = async (email: string, password: string) => {
     const error = { message: 'Password is incorrect', status: 401 };
     throw error;
   }
+  const userId = user.id.toString();
   const token = jwt.sign({
-    userId: user.id.toString(),
+    userId,
     email: user.email,
   }, jwtSecretKey, { expiresIn: jwtExpiration });
-  return token;
+  return { userId, token };
 };
