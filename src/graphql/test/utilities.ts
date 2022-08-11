@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import mongoose, { Mongoose } from 'mongoose';
 import { RedisClientType, createClient } from 'redis';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
@@ -37,9 +38,13 @@ export const startMongoClient = async (port: number): Promise<{
     .withExposedPorts(port)
     .start();
 
-  const dbName = 'mongo_test';
-  const dbConnectionString = `mongodb://${testContainer.getHost()}:${port}/${dbName}?retryWrites=true`;
+  const testDbName = 'endpoint_test';
+  const dbConnectionString = `mongodb://${testContainer.getHost()}:${port}/${testDbName}?retryWrites=true`;
   const testClient: Mongoose = await mongoose.connect(dbConnectionString);
 
   return { testContainer, testClient };
 };
+
+export const getHashedPassword = async (
+  password: string,
+): Promise<string> => bcrypt.hash(password, 12);

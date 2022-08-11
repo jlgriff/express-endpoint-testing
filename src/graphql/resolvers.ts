@@ -4,15 +4,18 @@ import { minPasswordLength } from '../configs/index';
 import { loginUser, saveUser } from '../database/user.data';
 import { Auth } from '../interfaces/authorization';
 import { Exception } from '../interfaces/exception';
-import { User, UserInput } from '../interfaces/user';
+import { User } from '../interfaces/user';
 
 /**
  * Validates the user entity's input, checks if it already exists, and saves it into the database
  */
-const createUser = async (userInput: { userInput: UserInput; }, _context: any): Promise<User> => {
+const createUser = async (
+  args: { email: string, firstname: string, lastname: string, password: string; },
+  _context: any,
+): Promise<User> => {
   const {
     email, password, firstname, lastname,
-  } = userInput.userInput;
+  } = args;
   if (!validator.isEmail(email)) {
     const error: Exception = { message: 'Email must be valid', status: 400 };
     throw error;
