@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { jwtExpiration, jwtSecretKey } from '../configs/index';
+import { Exception } from '../interfaces/exception';
 import { User } from '../interfaces/user';
 import UserModel from '../models/user';
 
@@ -15,7 +16,7 @@ export const saveUser = async (
 ): Promise<User> => {
   const existingUser = await UserModel.findOne({ email });
   if (existingUser) {
-    const error = { message: 'User exists already', status: 400 };
+    const error: Exception = { message: 'User exists already', status: 400 };
     throw error;
   }
 
@@ -28,7 +29,7 @@ export const saveUser = async (
   });
   const createdUser = await userModel.save();
   return {
-    id: createdUser.id.toString(),
+    _id: createdUser.id.toString(),
     email: createdUser.email,
     firstname: createdUser.firstname,
     lastname: createdUser.lastname,

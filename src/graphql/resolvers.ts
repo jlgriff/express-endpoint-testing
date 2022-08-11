@@ -2,6 +2,7 @@ import validator from 'validator';
 
 import { minPasswordLength } from '../configs/index';
 import { loginUser, saveUser } from '../database/user.data';
+import { Exception } from '../interfaces/exception';
 import { User, UserInput } from '../interfaces/user';
 
 /**
@@ -13,14 +14,14 @@ const createUser = async (userInput: { userInput: UserInput; }, _context: any): 
   } = userInput.userInput;
 
   if (!validator.isEmail(email)) {
-    const error = { message: 'Email must be valid', status: 400 };
+    const error: Exception = { message: 'Email must be valid', status: 400 };
     throw error;
   } else if (validator.isEmpty(password)
     || !validator.isLength(password, { min: minPasswordLength })) {
-    const error = { message: `Password must be at least ${minPasswordLength} characters long`, status: 400 };
+    const error: Exception = { message: `Password must be at least ${minPasswordLength} characters long`, status: 400 };
     throw error;
   } else if (validator.isEmpty(firstname) || validator.isEmpty(lastname)) {
-    const error = { message: 'First and last name must be provided', status: 400 };
+    const error: Exception = { message: 'First and last name must be provided', status: 400 };
     throw error;
   }
   return saveUser(email, password, firstname, lastname);
