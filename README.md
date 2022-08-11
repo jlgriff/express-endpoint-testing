@@ -6,11 +6,9 @@ This project is a proof-of-concept for creating API endpoint tests that:
 2. Don't require any setup external to the code
 3. Test real database interactions instead of mocks
 
-Thus, the goal is to be able to run `npm test` without any system setup, and yet still be able to validate real interactions with a real database.
+To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a MongoDB container just for the duration of the `npm test` script.
 
-To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a MongoDB container within the test files.
-
-I'm also serving up the API with GraphQL and will be endpoint testing each of the resolvers.
+The service does require Docker to be running to spin up the dynamic test containers, but requires no system setup besides that.
 
 # Installation
 
