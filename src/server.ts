@@ -6,12 +6,12 @@ import {
 import application from './app';
 import log from './utilities/logger';
 
-const appConfig: ApplicationConfig = { port, environment, graphiqlEnabled };
+const appConfig: ApplicationConfig = { graphiqlEnabled };
 const app = application(appConfig);
 
 app.on('ready', () => {
-  app.listen(appConfig.port, () => {
-    log('info', `Application is running on port ${appConfig.port} in the ${appConfig.environment} environment`);
+  app.listen(port, () => {
+    log('info', `Application is running on port ${port} in the ${environment} environment`);
   });
 });
 

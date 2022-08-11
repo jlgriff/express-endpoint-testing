@@ -32,7 +32,7 @@ I'm also serving up the API with GraphQL and will be endpoint testing each of th
 
 # Testing
 
-Run `npm run test` to run tests.
+Run `npm test` to run tests.
 
 # Docker
 
