@@ -37,7 +37,8 @@ export const startMongoClient = async (port: number): Promise<{
     .withExposedPorts(port)
     .start();
 
-  const dbConnectionString = `mongodb://${testContainer.getHost()}:${port}/testing?retryWrites=true`;
+  const dbName = 'mongo_test';
+  const dbConnectionString = `mongodb://${testContainer.getHost()}:${port}/${dbName}?retryWrites=true`;
   const testClient: Mongoose = await mongoose.connect(dbConnectionString);
 
   return { testContainer, testClient };

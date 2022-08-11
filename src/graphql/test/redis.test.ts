@@ -19,7 +19,7 @@ describe('Test a redis insert and read', () => {
     await container.stop();
   });
 
-  it('Verify the index endpoint returns OK', async () => {
+  it('Verify the client saves and reads vales correctly', async () => {
     await client.set('key', 'val');
     expect(await client.get('key')).toBe('val');
   });
