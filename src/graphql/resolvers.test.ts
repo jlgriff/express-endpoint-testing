@@ -11,6 +11,22 @@ const appConfig: ApplicationConfig = { graphiqlEnabled: false };
 const app = application(appConfig);
 const dbPort = 27017;
 
+const validUserInput: UserInput = {
+  email: 'test@test.com',
+  password: '123456',
+  firstname: 'John',
+  lastname: 'Doe',
+};
+
+const createUserMutationString = (userInput: UserInput): string => `{ 
+    createUser(userInput: ${userInput}) {
+      _id
+      email
+      firstname
+      lastname
+    }
+  }`;
+
 describe('Test the createUser mutation', () => {
   let container: StartedTestContainer;
   let client: Mongoose;
@@ -27,18 +43,7 @@ describe('Test the createUser mutation', () => {
   });
 
   it('Verify that a new valid user gets created', async () => {
-    const userInput: UserInput = {
-      email: 'test@test.com',
-      password: '123456',
-      firstname: 'John',
-      lastname: 'Doe',
-    };
-    const mutation: string = `{ 
-      createUser(userInput: ${userInput}) {
-        _id
-        email
-      }
-    }`;
+    const mutation = createUserMutationString(validUserInput);
     const response: agent.Test = agent(app)
       .post(graphqlEndpoint)
       .send({ mutation })
