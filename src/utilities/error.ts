@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import log from './logger';
 
-const statusCodePattern: RegExp = /status: (d+)/;
+const statusCodePattern: RegExp = /(?<=status: )(.*?)(?=\s)/;
 const messagePattern: RegExp = /(?<=message: ")(.*?)(?=")/;
 
 /**
