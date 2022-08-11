@@ -1,6 +1,10 @@
+import mongoose, { Mongoose } from 'mongoose';
 import { RedisClientType, createClient } from 'redis';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 
+/**
+ * Starts up a temporary redis container and uses it to initialize a redis client
+ */
 export const startRedisClient = async (port: number): Promise<{
   testContainer: StartedTestContainer;
   testClient: RedisClientType;
@@ -17,10 +21,24 @@ export const startRedisClient = async (port: number): Promise<{
       },
     },
   );
-
   await testClient.connect();
 
   return { testContainer, testClient };
 };
 
-export default startRedisClient;
+/**
+ * Starts up a temporary mongoose container and uses it to initialize a mongoose client
+ */
+export const startMongoClient = async (port: number): Promise<{
+  testContainer: StartedTestContainer;
+  testClient: Mongoose;
+}> => {
+  const testContainer: StartedTestContainer = await new GenericContainer('mongo')
+    .withExposedPorts(port)
+    .start();
+
+  const dbConnectionString = `mongodb://${testContainer.getHost()}:${port}/testing?retryWrites=true`;
+  const testClient: Mongoose = await mongoose.connect(dbConnectionString);
+
+  return { testContainer, testClient };
+};

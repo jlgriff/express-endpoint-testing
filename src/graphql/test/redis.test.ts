@@ -1,6 +1,6 @@
 import { StartedTestContainer } from 'testcontainers';
 import { RedisClientType } from 'redis';
-import startRedisClient from './utilities';
+import { startRedisClient } from './utilities';
 
 const dbPort = 6379;
 
