@@ -5,7 +5,7 @@ There's typically a fundamental tradeoff when deciding how to build integration/
 1. If the tests simply mock the database interactions, they will have the benefit of always being deterministic, but at the cost of validating those database interactions.
 2. If the tests interact with a real database, they will have the benefit of validating those database interactions, but will require significant system setup to connect the app to a running database.
 
-This project—however—implements a middle-ground in its `resolvers.test.ts` file: The tests validate __real database interactions__, but require essentially __no prior system setup__.
+This project—however—implements a middle-ground in its `resolvers.test.ts` file: The tests validate **real database interactions**, but require essentially **no prior system setup**.
 
 To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down database containers only for the duration of the `npm test` script. Using these real database clients means that the application code can be tested without relying on a single mock.
 
@@ -32,9 +32,3 @@ Because of how self-contained these tests are, the only setup required to run `n
 # Testing
 
 With Docker running, run `npm test`.
-
-# Docker
-
-1. Run `docker build -t template-image .` to build the image.
-
-2. Run `docker run --rm --name template template-image` to run the container.
