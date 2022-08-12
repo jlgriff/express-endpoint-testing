@@ -1,11 +1,11 @@
 import { Mongoose } from 'mongoose';
 import { StartedTestContainer } from 'testcontainers';
 import agent from 'supertest';
-import { getHashedPassword, startMongoClient } from './test/utilities';
-import application from '../app';
-import { ApplicationConfig } from '../interfaces/config.app';
-import { graphqlEndpoint } from '../configs';
-import UserModel from '../models/user';
+import { getHashedPassword, startMongoClient } from './utilities';
+import application from '../../app';
+import { ApplicationConfig } from '../../interfaces/config.app';
+import { graphqlEndpoint } from '../../configs';
+import UserModel from '../../models/user';
 
 const appConfig: ApplicationConfig = { graphiqlEnabled: false };
 const app = application(appConfig);
