@@ -5,10 +5,10 @@ import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
 import supertest from 'supertest';
-import { User } from '../../interfaces/user';
-import UserModel from '../../models/user';
-import log from '../../utilities/logger';
-import { Exception } from '../../interfaces/exception';
+import { User } from '../interfaces/user';
+import UserModel from '../models/user';
+import log from '../utilities/logger';
+import { Exception } from '../interfaces/exception';
 
 /**
  * Starts up a temporary redis container and uses it to initialize a redis client

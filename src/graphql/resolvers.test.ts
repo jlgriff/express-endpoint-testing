@@ -2,12 +2,12 @@
 import { Mongoose } from 'mongoose';
 import { StartedTestContainer } from 'testcontainers';
 import agent from 'supertest';
-import { loginQueryString, startMongoClient, insertTestUser, responseHasUserIdAndToken, createUserMutationString, responsesMatch } from './utilities';
-import application from '../../app';
-import { ApplicationConfig } from '../../interfaces/config.app';
-import { graphqlEndpoint, minPasswordLength } from '../../configs';
-import { validUserInput } from './test-data';
-import log from '../../utilities/logger';
+import { loginQueryString, startMongoClient, insertTestUser, responseHasUserIdAndToken, createUserMutationString, responsesMatch } from '../testing-tools/utilities';
+import application from '../app';
+import { ApplicationConfig } from '../interfaces/config.app';
+import { graphqlEndpoint, minPasswordLength } from '../configs';
+import { validUserInput } from '../testing-tools/test-data';
+import log from '../utilities/logger';
 
 const appConfig: ApplicationConfig = { graphiqlEnabled: false };
 const app = application(appConfig);

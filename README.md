@@ -1,22 +1,23 @@
 # Introduction
 
-This project is a proof-of-concept for creating API endpoint tests that:
+There's typically a fundamental tradeoff when deciding how to build integration/endpoint tests:
 
-1. Are deterministic
-2. Don't require any setup external to the code
-3. Test real database interactions instead of mocks
+1. If the tests simply mock the database interactions, they will have the benefit of always being deterministic, but at the cost of validating those database interactions.
+2. If the tests interact with a real database, they will have the benefit of validating those database interactions, but will require significant system setup to connect the app to a running database.
 
-To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down a MongoDB container just for the duration of the `npm test` script.
+This project—however—implements a middle-ground in its `resolvers.test.ts` file: The tests validate __real database interactions__, but require essentially __no prior system setup__.
 
-The service does require Docker to be running to spin up the dynamic test containers, but requires no system setup besides that.
+To do this, I'm using [npm testcontainers](https://www.npmjs.com/package/testcontainers) to programatically spin up an shut down database containers only for the duration of the `npm test` script. Using these real database clients means that the application code can be tested without relying on a single mock.
+
+Because of how self-contained these tests are, the only setup required to run `npm test` is a running Docker daemon.
 
 # Installation
 
 1. Run `npm install` to install the dependencies.
 2. Run `npm run copy-env:local` to create a `.env` from `.env-local` if `.env` doesn't already exist.
 3. Start [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) on the default port (already set in `.env`).
-    * On Unix, this can be run via `sudo brew services start mongodb-community@6.0`.
-3. Run `npm start` to start the application.
+   - On Unix, this can be run via `sudo brew services start mongodb-community@6.0`.
+4. Run `npm start` to start the application.
 
 # Development Mode
 
@@ -24,13 +25,13 @@ The service does require Docker to be running to spin up the dynamic test contai
 
 # Routes
 
-| Route | Method | Response |
-|-------|-------|-------|
-| `/graphql` | POST | Provides a GraphQL API |
+| Route      | Method | Response               |
+| ---------- | ------ | ---------------------- |
+| `/graphql` | POST   | Provides a GraphQL API |
 
 # Testing
 
-Run `npm test` to run tests.
+With Docker running, run `npm test`.
 
 # Docker
 
