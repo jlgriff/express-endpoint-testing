@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
 
-const statusCodePattern: RegExp = /(?<=status: )(.*?)(?=\s)/;
+const statusCodePattern: RegExp = /(?<=status: )(.*?)(?=\s|})/;
 const messagePattern: RegExp = /(?<=message: ")(.*?)(?=")/;
 
 /**
@@ -28,7 +28,7 @@ const handleError = (err: GraphQLError): { message: string, status: number; } =>
     const { message, code } = extractErrorFromMessage(err.originalError.message);
     return { message, status: code };
   }
-  return { message: 'Unexpected error', status: 500 };
+  return { message: 'Unparsable error', status: 500 };
 };
 
 export default handleError;

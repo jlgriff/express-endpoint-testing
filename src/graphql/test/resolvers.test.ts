@@ -5,7 +5,7 @@ import agent from 'supertest';
 import { loginQueryString, startMongoClient, insertTestUser, responseHasUserIdAndToken, createUserMutationString, responsesMatch } from './utilities';
 import application from '../../app';
 import { ApplicationConfig } from '../../interfaces/config.app';
-import { graphqlEndpoint } from '../../configs';
+import { graphqlEndpoint, minPasswordLength } from '../../configs';
 import { validUserInput } from './test-data';
 import log from '../../utilities/logger';
 
@@ -31,7 +31,7 @@ afterAll(async () => {
 afterEach(async () => client.connection.db.dropDatabase());
 
 describe('Test the login resolver', () => {
-  it('login: Verify that a user with correct credentials can log in', async () => {
+  it('Verify that a user with correct credentials can log in', async () => {
     const { firstname, lastname, password } = validUserInput;
     const email = 'valid.user1@test.com';
     await insertTestUser(email, firstname, lastname, password);
@@ -40,11 +40,39 @@ describe('Test the login resolver', () => {
       .post(graphqlEndpoint)
       .set('Accept', 'application/json')
       .send({ query: loginQueryString(email, password) })
-      .expect(200)
       .expect((res) => {
-        const { body } = res;
+        const { body, status } = res;
         if (!responseHasUserIdAndToken(body)) {
           const error: Error = new Error(`Response does not contain userId and token:\n${JSON.stringify(body)}`);
+          log('error', error.toString());
+          throw error;
+        }
+        if (status !== 200) {
+          const error: Error = new Error('Response should return a 200 status');
+          log('error', error.toString());
+          throw error;
+        }
+      });
+  });
+
+  it('Verify that a user with incorrect credentials cannot log in', async () => {
+    const { firstname, lastname, password } = validUserInput;
+    const email = 'invalid.user1@test.com';
+    await insertTestUser(email, firstname, lastname, password);
+
+    await agent(app)
+      .post(graphqlEndpoint)
+      .set('Accept', 'application/json')
+      .send({ query: loginQueryString(email, 'invalidpassword') })
+      .expect((res) => {
+        const { body, status } = res;
+        if (responseHasUserIdAndToken(body)) {
+          const error: Error = new Error(`Response should not contain userId and token:\n${JSON.stringify(body)}`);
+          log('error', error.toString());
+          throw error;
+        }
+        if (status === 200) {
+          const error: Error = new Error('Response should not return a 200 status');
           log('error', error.toString());
           throw error;
         }
@@ -53,13 +81,13 @@ describe('Test the login resolver', () => {
 });
 
 describe('Test the createUser resolver', () => {
-  it('createUser: Verify that a new valid user can be created', async () => {
+  it('Verify that a new valid user can be created', async () => {
     const { firstname, lastname, password } = validUserInput;
     const email = 'valid.user1@test.com';
     const expected = {
       data: {
         createUser: {
-          _id: '                        ',
+          _id: '________________________',
           email,
           firstname,
           lastname,
@@ -71,11 +99,79 @@ describe('Test the createUser resolver', () => {
       .post(graphqlEndpoint)
       .set('Accept', 'application/json')
       .send({ query: createUserMutationString(email, firstname, lastname, password) })
-      .expect(200)
       .expect((res) => {
-        const { body } = res;
+        const { body, status } = res;
         if (!responsesMatch(expected, body)) {
-          const error: Error = new Error(`Response not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
+          const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
+          log('error', error.toString());
+          throw error;
+        }
+        if (status !== 200) {
+          const error: Error = new Error('Response should return a 200 status');
+          log('error', error.toString());
+          throw error;
+        }
+      });
+  });
+
+  it('Verify that an existing user cannot be created', async () => {
+    const { firstname, lastname, password } = validUserInput;
+    const email = 'invalid.user2@test.com';
+    await insertTestUser(email, firstname, lastname, password);
+    const expected = {
+      errors: [
+        {
+          message: 'User exists already',
+          status: 400,
+        },
+      ],
+    };
+
+    await agent(app)
+      .post(graphqlEndpoint)
+      .set('Accept', 'application/json')
+      .send({ query: createUserMutationString(email, firstname, lastname, password) })
+      .expect((res) => {
+        const { body, status } = res;
+        if (!responsesMatch(expected, body)) {
+          const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
+          log('error', error.toString());
+          throw error;
+        }
+        if (status === 200) {
+          const error: Error = new Error('Response should not return a 200 status');
+          log('error', error.toString());
+          throw error;
+        }
+      });
+  });
+
+  it('Verify that a user cannot be created with too short of a password', async () => {
+    const { firstname, lastname } = validUserInput;
+    const email = 'invalid.user3@test.com';
+    const password = '123';
+    const expected = {
+      errors: [
+        {
+          message: `Password must be at least ${minPasswordLength} characters long`,
+          status: 400,
+        },
+      ],
+    };
+
+    await agent(app)
+      .post(graphqlEndpoint)
+      .set('Accept', 'application/json')
+      .send({ query: createUserMutationString(email, firstname, lastname, password) })
+      .expect((res) => {
+        const { body, status } = res;
+        if (!responsesMatch(expected, body)) {
+          const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
+          log('error', error.toString());
+          throw error;
+        }
+        if (status === 200) {
+          const error: Error = new Error('Response should not return a 200 status');
           log('error', error.toString());
           throw error;
         }

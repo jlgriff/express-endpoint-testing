@@ -59,7 +59,7 @@ export const handleTestError = (err: any, res: supertest.Response) => {
   if (err) {
     const errorMsg: string = `Test's error response:\n${JSON.stringify(res)}`;
     log('error', errorMsg);
-    const error: Exception = { message: errorMsg, status: 500 };
+    const error: Exception = { message: errorMsg, status: err.status };
     throw error;
   }
 };
