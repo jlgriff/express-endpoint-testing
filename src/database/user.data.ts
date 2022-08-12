@@ -43,12 +43,12 @@ export const saveUser = async (
 export const loginUser = async (email: string, password: string): Promise<Auth> => {
   const user = await UserModel.findOne({ email });
   if (!user) {
-    const error = { message: 'User was not found', status: 404 };
+    const error = { message: `User ${email} was not found`, status: 404 };
     throw error;
   }
   const isEqual = await bcrypt.compare(password, user.password);
   if (!isEqual) {
-    const error = { message: 'Password is incorrect', status: 401 };
+    const error = { message: `Password for user ${email} is incorrect`, status: 401 };
     throw error;
   }
   const userId = user.id.toString();
