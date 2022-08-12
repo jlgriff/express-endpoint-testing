@@ -1,5 +1,4 @@
 import { GraphQLError } from 'graphql';
-import log from './logger';
 
 const statusCodePattern: RegExp = /(?<=status: )(.*?)(?=\s)/;
 const messagePattern: RegExp = /(?<=message: ")(.*?)(?=")/;
@@ -16,11 +15,7 @@ const extractErrorFromMessage = (errorMsg: string): { message: string, code: num
   const messageArray: RegExpExecArray | null = messagePattern.exec(errorMsg);
   const message: string = messageArray && messageArray.length > 0
     ? messageArray[0]
-    : 'Unexpected error';
-
-  if (message === 'Unexpected error') {
-    log('warn', `The following error could not have its message extracted: ${errorMsg}`);
-  }
+    : errorMsg;
 
   return { message, code };
 };
