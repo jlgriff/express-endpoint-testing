@@ -44,12 +44,12 @@ describe('Test the login resolver', () => {
         const { body, status } = res;
         if (!responseHasUserIdAndToken(body)) {
           const error: Error = new Error(`Response does not contain userId and token:\n${JSON.stringify(body)}`);
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
         if (status !== 200) {
           const error: Error = new Error('Response should return a 200 status');
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
       });
@@ -68,12 +68,12 @@ describe('Test the login resolver', () => {
         const { body, status } = res;
         if (responseHasUserIdAndToken(body)) {
           const error: Error = new Error(`Response should not contain userId and token:\n${JSON.stringify(body)}`);
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
         if (status === 200) {
           const error: Error = new Error('Response should not return a 200 status');
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
       });
@@ -103,12 +103,12 @@ describe('Test the createUser resolver', () => {
         const { body, status } = res;
         if (!responsesMatch(expected, body)) {
           const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
         if (status !== 200) {
           const error: Error = new Error('Response should return a 200 status');
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
       });
@@ -135,12 +135,12 @@ describe('Test the createUser resolver', () => {
         const { body, status } = res;
         if (!responsesMatch(expected, body)) {
           const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
         if (status === 200) {
           const error: Error = new Error('Response should not return a 200 status');
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
       });
@@ -167,12 +167,12 @@ describe('Test the createUser resolver', () => {
         const { body, status } = res;
         if (!responsesMatch(expected, body)) {
           const error: Error = new Error(`Response did not match expected output:\n Expected:\n ${JSON.stringify(expected)}\n Actual:\n ${JSON.stringify(body)}`);
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
         if (status === 200) {
           const error: Error = new Error('Response should not return a 200 status');
-          log('error', error.toString());
+          log('error', error.toString(), true);
           throw error;
         }
       });
