@@ -1,12 +1,12 @@
+import Redis from 'ioredis';
 import { StartedTestContainer } from 'testcontainers';
-import { RedisClientType } from 'redis';
 import { startRedisClient } from './utilities';
 
 const dbPort = 6379;
 
 describe('Test a redis insert and read', () => {
   let container: StartedTestContainer;
-  let client: RedisClientType;
+  let client: Redis;
 
   beforeAll(async () => {
     const { testContainer, testClient } = await startRedisClient(dbPort);

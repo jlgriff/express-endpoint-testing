@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose, { Mongoose } from 'mongoose';
-import { RedisClientType, createClient } from 'redis';
+import Redis from 'ioredis';
 import { GenericContainer, StartedTestContainer } from 'testcontainers';
 import isEqual from 'lodash.isequal';
 import sortBy from 'lodash.sortby';
@@ -15,21 +15,13 @@ import { Exception } from '../interfaces/exception';
  */
 export const startRedisClient = async (port: number): Promise<{
   testContainer: StartedTestContainer;
-  testClient: RedisClientType;
+  testClient: Redis;
 }> => {
   const testContainer: StartedTestContainer = await new GenericContainer('redis')
     .withExposedPorts(port)
     .start();
 
-  const testClient: RedisClientType = createClient(
-    {
-      socket: {
-        host: testContainer.getHost(),
-        port: testContainer.getMappedPort(port),
-      },
-    },
-  );
-  await testClient.connect();
+  const testClient: Redis = new Redis(testContainer.getMappedPort(port), testContainer.getHost());
 
   return { testContainer, testClient };
 };
